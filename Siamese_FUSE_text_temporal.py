@@ -29,56 +29,24 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from sklearn import metrics 
 import pandas
-from sklearn.model_selection import cross_val_score
-from sklearn import neighbors,linear_model, metrics, preprocessing, model_selection
-from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import accuracy_score
-
-
-def euclidean_distance(vects):
-    x, y = vects
-    return K.sqrt(K.maximum(K.sum(K.square(x - y), axis=1, keepdims=True), K.epsilon()))
-
-
-def eucl_dist_output_shape(shapes):
-    shape1, shape2 = shapes
-    return (shape1[0], 1)
-
-
-def cosine_distance(vects):
-    x, y = vects
-    print(x,y)
-    x = K.l2_normalize(x, axis=-1)
-    y = K.l2_normalize(y, axis=-1)
-    dot_prod = K.sum((x * y), axis=-1, keepdims=True)
-    return K.sigmoid(dot_prod)
-    #return K.sqrt(K.maximum(K.sum(K.square(x - y), axis=1, keepdims=True), K.epsilon()))
-
-
-def cos_dist_output_shape(shapes):
-    shape1, shape2 = shapes
-    #print("Shapes are {}".format(shapes))
-    #print(shape1[0], 1)  
-    return (shape1[0], 1)
-
-def lik_ratio(y_true, y_pred):
-    '''Contrastive loss from Hadsell-et-al.'06
-    http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
-    '''
-    print(y_true, y_pred)
-    return K.mean(-(1-y_true) * K.log(y_pred+1e-20) - neg_loss_wt * (y_true) * K.log(1-y_pred+1e-20))
+#from sklearn.model_selection import cross_val_score
+#from sklearn import neighbors,linear_model, metrics, preprocessing, model_selection
+#from sklearn.model_selection import StratifiedKFold
+#from sklearn.metrics import accuracy_score
+from utils import *
+import global_vars
 
 
 def conv_filt(input_dim, no_filters, filt_sizes):
-
+    ''' returns a list of parallel convolutonal layers. We will concatenate them in concat_conv_filt() '''
     filt_models = []
-    strides_list = [1] * len(no_filters)
-    print(no_filters, filt_sizes, strides_list)
+    print(no_filters, filt_sizes)
     repeat_threshold = int(len(no_filters)/2)
     for filt_ind, filt in enumerate(no_filters):
         model = Sequential()
-        model.add(Embedding(20000, 300, input_length=MaxLen))
-        model.add(Conv1D(no_filters[filt_ind], filt_sizes[filt_ind], strides=strides_list[filt_ind]))
+        # Anything more than vocabulary size to be considered is fine. I used 20000 here
+        model.add(Embedding(20000, 300, input_length=global_vars.MaxLen))
+        model.add(Conv1D(no_filters[filt_ind], filt_sizes[filt_ind], strides=1))
         model.add(Activation('relu'))
         if filt_ind < repeat_threshold:
             pool_sizes = 2
@@ -93,7 +61,7 @@ def conv_filt(input_dim, no_filters, filt_sizes):
 
 
 def concat_conv_filt(conv_net_filters, no_filters, input_a):
-
+    ''' concatenates a list of parallel layers '''
     conv_net_out_1 = []
     for i in range(len(no_filters)):
         processed_a = conv_net_filters[i](input_a)
@@ -103,28 +71,12 @@ def concat_conv_filt(conv_net_filters, no_filters, input_a):
 
 
 def AF_CNN(input_a_AF):
+    ''' convoltional layer for temporal features. AF meaning Audio features '''
     out = Conv1D(20, 3, strides=1)(input_a_AF)
     out = Flatten()(out)
     out = Dense(30)(out)
     out = Activation('relu')(out)
     return out
-
-
-def doc_represent_embedding(tokenizer, data):
-    x = keras.preprocessing.text.text_to_word_sequence(data)
-    temp = tokenizer.texts_to_sequences(x)
-    sequences = [list(np.concatenate(temp))]
-    input_rep = pad_sequences(sequences, maxlen=MaxLen)
-    input_rep = np.reshape(input_rep, (1,-1))
-    return input_rep
-
-
-def fisher_text_file_load(file_id, transcripts_dir='/var/users/raghavendra/CSAT_scripts/transcripts_mod/'):
-    with open(transcripts_dir + file_id + '.csv', 'r') as f:
-        conversation = f.readlines()
-        conversation = [sentence.strip() for sentence in conversation]
-        conversation = ' '.join(conversation)
-    return conversation
 
 
 def allpairs_gen_joint(utt2label, label2utt, features, no_classesPerBatch = 2, data_dir = 'data/', no_classes = 2, post_string='train'):   
@@ -236,9 +188,7 @@ def main():
     batch_size_calc = no_samples * (no_samples-1)/2
     pos_pairs = no_classesPerBatch * sampPerClass * (sampPerClass - 1)/2
     neg_pairs = batch_size_calc - pos_pairs
-    global neg_loss_wt
-    neg_loss_wt = pos_pairs/neg_pairs
-    print("Neg Loss wt is {}".format(neg_loss_wt))
+    global_vars.neg_loss_wt = pos_pairs/neg_pairs
     
     global init
     init = keras.initializers.VarianceScaling(scale=1.0, mode='fan_in', distribution='normal', seed=None)
@@ -297,7 +247,7 @@ def main():
     main_out_1 = Activation('softmax', name='main_output_1')(classif_processed_a)
     classif_processed_b = dense_layer(conv_processed_b)
     main_out_2 = Activation('softmax', name='main_output_2')(classif_processed_b)
-    aux_output = Lambda(cosine_distance, output_shape=eucl_dist_output_shape, name='aux_output')([conv_processed_a_text, conv_processed_b_text])
+    aux_output = Lambda(cosine_distance, output_shape=cos_dist_output_shape, name='aux_output')([conv_processed_a_text, conv_processed_b_text])
     
     model = Model(input=[input_a, input_b, input_a_AF, input_b_AF], output=[main_out_1, main_out_2, aux_output])
     
@@ -316,8 +266,8 @@ def main():
     train_gen = allpairs_gen_joint(utt2label, label2utt_train, features, no_classesPerBatch, data_dir, no_classes, post_string='train')
     dev_gen = allpairs_gen_joint(utt2label, label2utt_test, features, no_classesPerBatch, data_dir, no_classes, post_string='dev')
     
-    steps_train = 10
-    steps_dev = 5
+    steps_train = 120
+    steps_dev = 50
     print(model.summary())
     
     History = model.fit_generator(train_gen, validation_data=dev_gen, validation_steps=steps_dev, steps_per_epoch=steps_train, epochs=no_epochs, max_queue_size=64, workers=5, initial_epoch=0, verbose=1, pickle_safe=True, callbacks=[c1])
