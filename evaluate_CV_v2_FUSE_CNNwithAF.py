@@ -1,18 +1,12 @@
 from keras.models import Sequential, Model
-from keras.layers import Dense, Dropout, Input, Lambda, Conv1D, Dense, MaxPooling1D, Flatten, Activation, TimeDistributed
+from keras.layers import Dense, Dropout, Input, Lambda, Conv1D, Dense, MaxPooling1D, Flatten, Activation
 from keras.optimizers import RMSprop, Adam, SGD, Adagrad
 from keras import backend as K
-import scipy.io as sio
 import numpy as np
-import scipy.sparse as sparse
-from keras import regularizers
-from keras.constraints import maxnorm, non_neg
 import keras
 import sys
 import time
 import h5py, pickle
-from keras.callbacks import ModelCheckpoint, EarlyStopping
-import numpy as np
 from keras.models import model_from_yaml
 import os
 from keras.preprocessing.sequence import pad_sequences
@@ -28,11 +22,21 @@ import argparse
 
 
 def allpairs_gen_joint(f_AF, tokenizer, test_uttlist, utt2label, no_classes, transcripts_dir='/var/users/raghavendra/CSAT_scripts/transcripts_mod/'):
-
-    print('Loading data after randomizing')
+    ''' Generates data to be used for feed forwarding
+    Inputs:
+    f_AF -- hdf5 file pointer for temporal features
+    tokenizer -- tokenizer used in the training stage
+    test_uttlist -- utterance list to be evaluated
+    utt2label -- utterance to label maaping dictionary
+    no_classes -- number of possible classes for each utterance
+    transcripts_dir -- dir where transcripts exists
+    
+    Outputs: it yields the batch data (features and labels) in a format required for DNN
+    '''
+    
     batch_no = 0    
     while 1:
-        k = 0
+        # getting utterance list for each batch
         if (batch_no+1) * batch_size < len(test_uttlist):
             samples = test_uttlist[batch_no * batch_size: (batch_no+1) * batch_size]
         else:
@@ -53,12 +57,18 @@ def allpairs_gen_joint(f_AF, tokenizer, test_uttlist, utt2label, no_classes, tra
 
 
 def sub_model_v2(model, layer_ind):
-    ''' picking out the layers we want for testing. layer_ind should have layer indices. Useful to see model.summary() before setting          layer_ind. I hard coded layer numbers because I have two inputs with different architecture. This need to be fixed in future
+    ''' 
+        Inputs: model -- training model from which we create testing model
+                layer_ind -- list of indices of layers required in test model
+        Note:picking out the layers we want for testing. layer_ind should have layer indices. Useful to see model.summary() before setting layer_ind. I hard coded layer numbers because I have two inputs with different architecture. This need to be fixed in future
+
+        outputs: test_model -- test model which is used for feature extratcion or prediction of output class
+                no_classes -- number of possible classes for each utterance
     '''
     input_dim = model.layers[0].output_shape[1]
     audio_feat_dim = model.layers[1].output_shape[1] 
-    input_a = Input(shape=(input_dim,), name='input1')  
-    input_a_AF = Input(shape=(audio_feat_dim, 1), name='input1_AF')  
+    input_a = Input(shape=(input_dim,), name='input1')   # input from text data
+    input_a_AF = Input(shape=(audio_feat_dim, 1), name='input1_AF')   # input from temporal features
 
     out_AF = model.layers[5](input_a_AF)
     #out_AF = model.layers[6](out_AF)
@@ -78,14 +88,21 @@ def sub_model_v2(model, layer_ind):
 
 
 def data_dict_gen(data_dir, no_classes, fold_no):
+    ''' creating utterance lists and dictionaries to map utterance to labels. Used when you are testing on existing data. We can remove this function later if we do not need. I kept it to test on training data also
+        Input arguments and output argumnets are self-explanatory. 
+        fold_no -- Cross validation fold no to test on. It is used to get utterance list
+        
+     '''
     CV_folds = pickle.load(open(data_dir + '/CV_folds.pkl','rb'))
     fild_id_list = CV_folds['file_id']
     
+    # initializing to empty list for each class    
     utt2label = {}
     label2utt_train = {}
     for i in range(no_classes):
         label2utt_train[str(i)] = []
-    
+
+    # itearing through each line of utterance list 
     with open(data_dir + '/file_id_labels.txt', 'r') as f:
         for i in f.readlines():
             file_id = i.strip().split()[0]
@@ -111,12 +128,16 @@ def data_dict_gen(data_dir, no_classes, fold_no):
 
 
 def data_dict_gen_from_file(data_dir, no_classes):
+    ''' creating utterance lists and dictionaries to map utterance to labels '''
+
     utt2label = {}
     label2utt_test = {}  
     test_uttlist = []  
+    # initializing to empty list for each class
     for i in range(no_classes):
         label2utt_test[str(i)] = []
-     
+
+    # itearing through each line of utterance list     
     with open(data_dir + '/utt2label_test.txt', 'r') as f:
         for i in f.readlines(): 
             file_id = i.strip().split()[0] 
@@ -139,7 +160,7 @@ def get_args():
     parser.add_argument('out_dir', help='dir to store output result')
     parser.add_argument('wt', type=float, help='wt factor for verification loss function. Used only to store the results file')
     parser.add_argument('suffix', help='suffix to be added to results file')
-    parser.add_argument('layer_ind', type=str, help='layer indices to be used for feature extraction')
+    parser.add_argument('layer_ind', type=str, help='layer indices to be used for feature extraction. Give a comma seperated list Ex: 1,2,3')
     parser.add_argument('AF_data_path', help='temporal features file in .h5 format')
     parser.add_argument('-n', '--new_transcripts', type=int, default=0, help='If True then make sure utt2label_test.txt exists in data dir. For format look at data_dir/file_id_labels.txt')
     parser.add_argument('-tr_dir', '--transcripts_dir', type=str, default='/var/users/raghavendra/CSAT_scripts/transcripts_mod/',
@@ -157,13 +178,14 @@ def main():
     args.layer_ind = args.layer_ind.split(',')
 
     # paralemeters to be set
-    global_vars.MaxLen = 1000
+    global_vars.MaxLen = 1000  # max number of words used in training stage. Mostly it would be 1000 always
     global batch_size 
-    batch_size = 64     
+    batch_size = 64  # can be set to different nuimber if you want
 
     if not os.path.isdir(args.out_dir):
         os.makedirs(args.out_dir)
     
+    # loading trainig model and creating new model as per requirements for evaluation
     print("arch file is {}".format(args.arch_file))
     print("Model path is {}".format(args.model_path))
     model = user_load_model(args.arch_file)
@@ -174,6 +196,8 @@ def main():
     print("Test model is ")
     print(test_model.summary())
     print(args.new_transcripts) 
+
+    # creating utterance list and mapping to corresponding labels 
     if args.new_transcripts == 0:
         utt2label, label2utt_train, label2utt_test, test_uttlist = data_dict_gen(args.data_dir, no_classes, args.fold_no)
     else:
@@ -189,12 +213,18 @@ def main():
     else:
         f_AF = h5py.File(args.AF_data_path, 'r')
             
+    # loading tokenizer used at the time of training
     tokenizer = pickle.load(open(args.data_dir + '/tokenizer_None_CV_' + str(args.fold_no) + 'fold.pkl', 'rb'))
+
+    # data generator for test data
     data_gen = allpairs_gen_joint(f_AF, tokenizer, test_uttlist, utt2label, no_classes = no_classes, transcripts_dir=args.transcripts_dir)
+
+    # calculating number of batches. It is equal to number of times we feed forward the data through DNN
     no_lines = len(test_uttlist)
     no_steps = int(np.ceil(no_lines/batch_size))
-   
     print("no_steps are {}".format(no_steps))
+
+    # generating data and feed forwarding to predicting labels
     for i in range(no_steps):
         pair = next(data_gen)
         x = test_model.predict(pair[0])
@@ -202,19 +232,20 @@ def main():
         test_p.append(temp)
         temp = np.argmax(pair[1]['main_output_1'], axis=1)
         test_label.append(temp)
-    
     test_label = np.hstack(test_label)
     test_p = np.hstack(test_p)
+
+    # calculate the accuracy
     test_acc = np.mean(test_label == test_p) * 100.0
     print("Number of samples processed is {}".format(len(test_p)))
     
-    f1_score_20news = metrics.f1_score(test_p, test_label, average='macro')
-    precision, recall, fscore, support = score(test_label, test_p)
+    f1_score = metrics.f1_score(test_p, test_label, average='macro')
+    #precision, recall, fscore, support = score(test_label, test_p)
     #print("Train Acc is {}".format(train_acc))
-    print("Test Acc and f1-score are {}, {}".format(test_acc, f1_score_20news))
-    print("precision, recall, fscore, support are {}, {}, {}, {}".format( precision, recall, fscore, support))
+    print("Test Acc and f1-score are {}, {}".format(test_acc, f1_score))
+    #print("precision, recall, fscore, support are {}, {}, {}, {}".format( precision, recall, fscore, support))
     with open(args.out_dir + '/result_' + args.suffix + '.txt', 'a') as f:
-        f.write(str(args.fold_no) + '\t' + str(args.wt) + '\t' +   str(test_acc) + '\t'  +  str(f1_score_20news)+ '\t'  +  str(fscore[0]) + '\t' + str(fscore[1]) + '\n' )
+        f.write(str(args.fold_no) + '\t' + str(args.wt) + '\t' +   str(test_acc) + '\t'  +  str(f1_score) + '\n' )
 
 
 if __name__ == "__main__":

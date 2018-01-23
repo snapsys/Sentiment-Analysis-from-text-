@@ -6,7 +6,10 @@ from keras.preprocessing.sequence import pad_sequences
 import global_vars
 
 def lik_ratio(y_true, y_pred):
-    ''' computes likelihood ratio between predictions and true labels. Did not put in utils.py because I am using neg_loss_wt as global         variable   '''
+    ''' computes likelihood ratio between predictions and true labels. Did not put in utils.py because I am using neg_loss_wt as global         variable   
+    Inputs: Ground truth label and predicted label
+    Output: returns the verification loss (liklihood ratio)
+    '''
     
     return K.mean(-(1-y_true) * K.log(y_pred+1e-20) - global_vars.neg_loss_wt * (y_true) * K.log(1-y_pred+1e-20))
 
@@ -38,7 +41,9 @@ def doc_represent_embedding(tokenizer, data):
 
 
 def fisher_text_file_load(file_id, transcripts_dir='/var/users/raghavendra/CSAT_scripts/transcripts_mod/'):
-    ''' returns sequence of words of a document removing new line character. Expects input file to have only relevant text'''
+    ''' returns sequence of words of a document removing new line character. Expects input file to have only relevant text
+        file_id is name of file to be used
+    '''
     with open(transcripts_dir + file_id + '.csv', 'r') as f:
         conversation = f.readlines()
         conversation = [sentence.strip() for sentence in conversation]
@@ -47,7 +52,9 @@ def fisher_text_file_load(file_id, transcripts_dir='/var/users/raghavendra/CSAT_
 
 
 def user_load_model(arch_file):
-    ''' returns model architecture '''
+    ''' returns model architecture 
+        arch_file -- .yaml file created in traning stage
+    '''
     yaml_file = open(arch_file, 'r')
     yaml_string = yaml_file.read()
     yaml_file.close()

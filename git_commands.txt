@@ -1,0 +1,12 @@
+
+
+git add *  # to add files to staging area. Need to do this first
+git commit -m "MESSAGE"  # this needs to be run after previous command
+
+git remote -v  # to see existing remotes
+git remote add origin URL # if is first time. i.e., if you are converting a local dir to github dir
+git remote set-url origin https://github.com/snapsys/Sentiment-Analysis-from-text-.git  # can be changed in .git/config
+git push -u origin master 
+
+
+
