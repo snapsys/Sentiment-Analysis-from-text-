@@ -1,6 +1,7 @@
 # Sentiment-Analysis-from-text-
 
 Siamese_FUSE_text_temporal.py  is training script
+
 evaluate_CV_v2_FUSE_CNNwithAF.py is script for evalution
 
 
