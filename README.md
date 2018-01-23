@@ -1,13 +1,12 @@
 # Sentiment-Analysis-from-text-
 
+## Training script:
 Siamese_FUSE_text_temporal.py  is training script
 
+## Evaluation script
 evaluate_CV_v2_FUSE_CNNwithAF.py is script for evalution
 
 
-
-
-Run from /mnt/NFS.cltlabnas1vg0/users/raghavendra/Github_version
 
 example usage:
 
