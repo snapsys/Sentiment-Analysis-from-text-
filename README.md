@@ -6,10 +6,14 @@ evaluate_CV_v2_FUSE_CNNwithAF.py is script for evalution
 
 
 
-Run from /mnt/NFS.cltlabnas1vg0/users/raghavendra/Github_version  
-example usage: 
+Run from /mnt/NFS.cltlabnas1vg0/users/raghavendra/Github_version
+
+example usage:
+
 src_dir=/mnt/NFS.cltlabnas1vg0/users/raghavendra/Github_version
+
 out_dir=GIVE_PATH_HERE
+
 CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py ${src_dir}/best_result/run_1model_SPOKEN_Siamese.yaml ${src_dir}/best_result/run_1SPOKEN_Siamese_3.0_foldno_1_48-0.72.hdf5 ${src_dir}/data_CV/ ${out_dir}/results/ 3 fold_1 1,2 ${src_dir}/AF_data.h5 -p test -f 1 -n 0
 
 data_dir contents required:
