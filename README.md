@@ -3,7 +3,7 @@
 ## Training script:
 Siamese_FUSE_text_temporal.py  is training script
 
-## Evaluation script
+## Evaluation script:
 evaluate_CV_v2_FUSE_CNNwithAF.py is script for evalution
 
 
