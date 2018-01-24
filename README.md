@@ -3,7 +3,14 @@
 ### **** TODO
 1.  Document main() in evaluate_CV_v2_FUSE_CNNwithAF.py.  When
     documenting a function please include the three essentials: 1.
-    overall description (including "side effects"), 2. inputs, 3. outputs
+    overall description (including "side
+    effects"), 2. inputs, 3. outputs
+
+2.  We need detailed descriptions of all data formats, not just
+pointers to example files.
+
+3.  We need all programs for preprocessing features.  How do I got
+    from a raw transcript to final output?
 
 
 ### **** Please add other important dependency and version info here
@@ -32,13 +39,11 @@ out_dir=/your/path/here
 
 CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py ${src_dir}/best_result/run_1model_SPOKEN_Siamese.yaml ${src_dir}/best_result/run_1SPOKEN_Siamese_3.0_foldno_1_48-0.72.hdf5 ${src_dir}/data_CV/ ${out_dir}/results/ 3 fold_1 1,2 ${src_dir}/AF_data.h5 -p test -f 1 -n 0
 
-### **** Everything below here needs much more details, e.g. formats
-         for all datatypes
+### **** Everything below here is unclear to me and needs explanation and detail.
 
 data_dir contents required:
 tokenizer for each fold -- can be found here: ${src_dir}/../CSAT_scripts/data_CV/tokenizer_None_CV_*fold.pkl 
 utt2label_test.txt if you are running on new transcripts.
-
 
 
 Things to consider before testing:
