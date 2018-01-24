@@ -23,13 +23,10 @@ Tensorflow 1.4.1
 
 Keras 2.0.8
 
-## Training script:
-Siamese_FUSE_text_temporal.py  is training script
 
-## Evaluation script:
+### 1. Reproduce results (complete):
+
 evaluate_CV_v2_FUSE_CNNwithAF.py is script for evalution
-
-
 
 example usage:
 
@@ -38,6 +35,8 @@ src_dir=/mnt/NFS.cltlabnas1vg0/users/raghavendra/Github_version
 out_dir=/your/path/here
 
 CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py ${src_dir}/best_result/run_1model_SPOKEN_Siamese.yaml ${src_dir}/best_result/run_1SPOKEN_Siamese_3.0_foldno_1_48-0.72.hdf5 ${src_dir}/data_CV/ ${out_dir}/results/ 3 fold_1 1,2 ${src_dir}/AF_data.h5 -p test -f 1 -n 0
+
+###2. Test on new data (incomplete):
 
 ### **** Everything below here is unclear to me and needs explanation and detail.
 
@@ -57,6 +56,9 @@ label info
 3. Need to have temporal features in a .h5 file. Example script to create .h5 file is /mnt/NFS.cltlabnas1vg0/users/raghavendra/Github_version/store_AF_data.py
 
 
+### 3.  Training (Incomplete)
+
+Siamese_FUSE_text_temporal.py  is training script
 
 
 
