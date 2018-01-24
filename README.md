@@ -36,7 +36,7 @@ out_dir=/your/path/here
 
 CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py ${src_dir}/best_result/run_1model_SPOKEN_Siamese.yaml ${src_dir}/best_result/run_1SPOKEN_Siamese_3.0_foldno_1_48-0.72.hdf5 ${src_dir}/data_CV/ ${out_dir}/results/ 3 fold_1 1,2 ${src_dir}/AF_data.h5 -p test -f 1 -n 0
 
-###2. Test on new data (incomplete):
+### 2. Test on new data (incomplete):
 
 ### **** Everything below here is unclear to me and needs explanation and detail.
 
