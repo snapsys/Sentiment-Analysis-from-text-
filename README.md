@@ -1,7 +1,11 @@
 # Sentiment-Analysis-from-text-
 
 ## Versions:
+
+# **** Please add other dependency and version info
+
 Python 3.6.3
+
 Tensorflow 1.4.1
 
 Keras 2.0.8
