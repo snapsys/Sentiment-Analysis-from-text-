@@ -13,8 +13,6 @@ pointers to example files.
     from a raw transcript to final output?
 
 
-### **** Please add other important dependency and version info here
-
 ## Versions:
 
 Python 3.6.3
