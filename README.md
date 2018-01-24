@@ -13,7 +13,7 @@ pointers to example files.
     from a raw transcript to final output?
 
 
-## Versions:
+## Tested with versions:
 
 Python 3.6.3
 
@@ -54,7 +54,7 @@ label info
 3. Need to have temporal features in a .h5 file. Example script to create .h5 file is /mnt/NFS.cltlabnas1vg0/users/raghavendra/Github_version/store_AF_data.py
 
 
-### 3.  Training (Incomplete)
+### 3.  Training (incomplete)
 
 Siamese_FUSE_text_temporal.py  is training script
 
