@@ -1,5 +1,10 @@
 # Sentiment-Analysis-from-text-
 
+## Versions:
+Python 3.6.3
+Tensorflow 1.4.1
+Keras 2.0.8
+
 ## Training script:
 Siamese_FUSE_text_temporal.py  is training script
 
