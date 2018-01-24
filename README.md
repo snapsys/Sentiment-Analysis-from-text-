@@ -1,10 +1,9 @@
 # Sentiment-Analysis-from-text-
 
 ### **** TODO
-1.  Document (description (including "side-effects"), inputs, outputs) main() in evaluate_CV_v2_FUSE_CNNwithAF.py
-
-
-
+1.  Document main() in evaluate_CV_v2_FUSE_CNNwithAF.py.  When
+    documenting a function please include the three essentials: 1.
+    overall description (including "side effects"), 2. inputs, 3. outputs
 
 
 ### **** Please add other important dependency and version info here
