@@ -1,8 +1,8 @@
 # Sentiment-Analysis-from-text-
 
-## Versions:
-
 # **** Please add other dependency and version info
+
+## Versions:
 
 Python 3.6.3
 
