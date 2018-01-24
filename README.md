@@ -1,6 +1,9 @@
 # Sentiment-Analysis-from-text-
 
-### **** Please add other dependency and version info here
+### **** TODO
+1.  Document main() in evaluate_CV_v2_FUSE_CNNwithAF.py
+
+### **** Please add other important dependency and version info here
 
 ## Versions:
 
