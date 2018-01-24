@@ -1,7 +1,11 @@
 # Sentiment-Analysis-from-text-
 
 ### **** TODO
-1.  Document main() in evaluate_CV_v2_FUSE_CNNwithAF.py
+1.  Document (description (including "side-effects"), inputs, outputs) main() in evaluate_CV_v2_FUSE_CNNwithAF.py
+
+
+
+
 
 ### **** Please add other important dependency and version info here
 
