@@ -60,8 +60,8 @@ Text files Info:
 All the scripts expect you to supply the text files with ONLY WITH RELEVANT data. I.e., it should contain only the words which need to be processed. 
 Example file is below:
     hello    
-    hello thank you
-    hello thank you for calling xyz dot com my name is debbie im a up
+    hello thank you  
+    hello thank you for calling xyz dot com my name is debbie im a up   
     hi sandy im i im try im up loaded a photo
     um i wanna get out of the way before i lose the fifty percent off
     um and i cant i of loaded the photos but im trying to um
