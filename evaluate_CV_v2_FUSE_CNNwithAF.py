@@ -47,7 +47,7 @@ def allpairs_gen_joint(f_AF, tokenizer, test_uttlist, utt2label, no_classes, tra
         batch_ind_set = np.array([[i, utt2label[i]] for i in samples])
 
         # data at those indices
-        batch_data = np.vstack([doc_represent_embedding(tokenizer, fisher_text_file_load(utt, transcripts_dir)) for utt in batch_ind_set[:, 0]])
+        batch_data = np.vstack([doc_represent_embedding(tokenizer, text_file_load(utt, transcripts_dir)) for utt in batch_ind_set[:, 0]])
         batch_data_audio_feat = np.array([f_AF[utt] for utt in batch_ind_set[:, 0]])
 
         batch_labels = np.vstack(keras.utils.to_categorical(int(j), no_classes) for j in batch_ind_set[:, 1])
@@ -90,8 +90,15 @@ def sub_model_v2(model, layer_ind):
 def data_dict_gen(data_dir, no_classes, fold_no):
     ''' creating utterance lists and dictionaries to map utterance to labels. Used when you are testing on existing data. We can remove this function later if we do not need. I kept it to test on training data also
         Input arguments and output argumnets are self-explanatory. 
+    Inputs:
+        data_dir -- data directory where CV_folds.pkl, file_id_labels.txt exist
+        no_classes -- Possible number of classes each document can be classified into 
         fold_no -- Cross validation fold no to test on. It is used to get utterance list
-        
+    outputs:
+        utt2label -- dictiionary with utterances as keys and labels as values, contains train+test
+        label2utt_train -- dictiionary with labels as keys and utterances as values, only for train uttearances
+        label2utt_test -- same as label2utt_train but only for test utterances
+        test_uttlist -- list of test utterances
      '''
     CV_folds = pickle.load(open(data_dir + '/CV_folds.pkl','rb'))
     fild_id_list = CV_folds['file_id']
@@ -128,8 +135,16 @@ def data_dict_gen(data_dir, no_classes, fold_no):
 
 
 def data_dict_gen_from_file(data_dir, no_classes):
-    ''' creating utterance lists and dictionaries to map utterance to labels '''
-
+    ''' creating utterance lists and dictionaries to map utterance to labels 
+    Inputs: 
+        data_dir -- data directory where utt2label_test.txt will exist
+        no_classes -- Possible number of classes each document can be classified into
+    Outputs:
+        utt2label -- dictiionary with utterances as keys and labels as values
+        label2utt_test -- dictiionary with labels as keys and utterances as values (opposite of utt2label)
+        test_uttlist -- list of utterances equal to utt2label.keys()
+    '''
+    
     utt2label = {}
     label2utt_test = {}  
     test_uttlist = []  
@@ -174,6 +189,11 @@ def get_args():
     return args
 
 def main():
+    ''' 
+    This function loads the supplied neural network model and evalautes a list of utterances         
+    Inputs: Obtained from get_args() function
+    Outputs: Outputs accuracy and f-score to out_dir
+    '''
     args = get_args()
     args.layer_ind = args.layer_ind.split(',')
 
