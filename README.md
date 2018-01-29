@@ -34,9 +34,9 @@ out_dir=/your/path/here
 
 CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py ${src_dir}/best_result/run_1model_SPOKEN_Siamese.yaml ${src_dir}/best_result/run_1SPOKEN_Siamese_3.0_foldno_1_48-0.72.hdf5 ${src_dir}/data_CV/ ${out_dir}/results/ 3 fold_1 1,2 ${src_dir}/AF_data.h5 -p test -f 1 -n 0
 
-### 2. Test on new data (incomplete):
-**data directory (data_dir)** should have following files: 
-**tokenizer** for each fold -- can be found here: ${src_dir}/../CSAT_scripts/data_CV/tokenizer_None_CV_*fold.pkl     
+### 2. Test on new data (incomplete):   
+**data directory (data_dir)** should have following files:   
+**tokenizer** for each fold -- can be found here: ${src_dir}/../CSAT_scripts/data_CV/tokenizer_None_CV_*fold.pkl        
                         -- used to turn the text into appropriate input format. Usually converting the text into sequence of 
                            word indices. For details look at https://keras.io/preprocessing/text/#tokenizer 
 
