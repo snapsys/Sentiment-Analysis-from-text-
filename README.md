@@ -62,21 +62,21 @@ Example file is below:
     hello    
     hello thank you  
     hello thank you for calling xyz dot com my name is debbie im a up   
-    hi sandy im i im try im up loaded a photo
-    um i wanna get out of the way before i lose the fifty percent off
-    um and i cant i of loaded the photos but im trying to um
-    put them in my car in order them but i need some help
-    okay
+    hi sandy im i im try im up loaded a photo   
+    um i wanna get out of the way before i lose the fifty percent off   
+    um and i cant i of loaded the photos but im trying to um    
+    put them in my car in order them but i need some help   
+    okay    
 
-One example of wrong format is below: (first few columns contain unwanted information, only the last column is relevant for us)
-    21J8CSQUKBBC9U0QQG,15.81,16.725,2,hello
-    21J8CSQUKBBC9U0QQG,16.23,17.235,1,hello thank you 
-    21J8CSQUKBBC9U0QQG,17.64,21.735,1,hello thank you for calling xyz dot com my name is debbie im a up
-    21J8CSQUKBBC9U0QQG,22.68,28.875,2,hi sandy im i im try im up loaded a photo
-    21J8CSQUKBBC9U0QQG,29.13,34.635,2,um i wanna get out of the way before i lose the fifty percent off 
-    21J8CSQUKBBC9U0QQG,35.88,41.925,2,um and i cant i of loaded the photos but im trying to um
-    21J8CSQUKBBC9U0QQG,42.09,46.395,2,put them in my car in order them but i need some help
-    21J8CSQUKBBC9U0QQG,48.18,49.635,1,okay
+One example of wrong format is below: (first few columns contain unwanted information, only the last column is relevant for us) 
+    21J8CSQUKBBC9U0QQG,15.81,16.725,2,hello 
+    21J8CSQUKBBC9U0QQG,16.23,17.235,1,hello thank you   
+    21J8CSQUKBBC9U0QQG,17.64,21.735,1,hello thank you for calling xyz dot com my name is debbie im a up 
+    21J8CSQUKBBC9U0QQG,22.68,28.875,2,hi sandy im i im try im up loaded a photo 
+    21J8CSQUKBBC9U0QQG,29.13,34.635,2,um i wanna get out of the way before i lose the fifty percent off     
+    21J8CSQUKBBC9U0QQG,35.88,41.925,2,um and i cant i of loaded the photos but im trying to um  
+    21J8CSQUKBBC9U0QQG,42.09,46.395,2,put them in my car in order them but i need some help 
+    21J8CSQUKBBC9U0QQG,48.18,49.635,1,okay  
 
 
 Things to consider before testing:
