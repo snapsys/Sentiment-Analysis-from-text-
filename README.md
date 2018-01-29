@@ -98,7 +98,7 @@ Siamese_FUSE_text_temporal.py  is training script
 
 
 **4. System Architecture **
-
+Top level architecture is:
 ![Alt text](https://github.com/snapsys/Sentiment-Analysis-from-text-/blob/master/sum_base_models_dropout.jpg)
 
 where **BaseModel(BM)** archtecture is shown below  
