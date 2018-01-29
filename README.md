@@ -6,12 +6,6 @@
     overall description (including "side
     effects"), 2. inputs, 3. outputs
 
-2.  We need detailed descriptions of all data formats, not just
-pointers to example files.
-
-3.  We need all programs for preprocessing features.  How do I got
-    from a raw transcript to final output?
-
 
 ## Tested with versions:
 
@@ -92,22 +86,6 @@ where **BaseModel(BM)** archtecture is shown below
 
 
 ![Alt text](https://github.com/snapsys/Sentiment-Analysis-from-text-/blob/master/base_model_2.jpg)
-
-
-
-### **** Everything below here is unclear to me and needs explanation and detail.
-
-
-
-Things to consider before testing:
-
-1. You need to have utt2label_test.txt in data_dir with filename and
-label info
-
-2. Script expect you to have text data file with .csv extension. You need to have only relevant text in the file. Example file is in 
-/var/users/raghavendra/CSAT_scripts/transcripts_mod//CSAT_scripts/transcripts_mod/AOC35MRJJ4QM6K56D3.csv
-
-3. Need to have temporal features in a .h5 file. Example script to create .h5 file is /mnt/NFS.cltlabnas1vg0/users/raghavendra/Github_version/store_AF_data.py
 
 
 
