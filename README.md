@@ -52,11 +52,11 @@ Example:
     FII20I812P26QFPGLQ 0    
     A0EAE75296JVLECGS2 0    
 
-**Temporal features Info:**
+**Temporal features Info:** 
     Temporal features are expected to be stored in h5 format. It is Hierarchical Data format, used to store and access efficiently. For more details refer https://support.hdfgroup.org/HDF5/   
     The scripts expect you to have seperate data set (data set is h5 terminalogy) for each utterance in h5 file. Details of how to store can be understood from store_AF_data.py.
 
-**Text files Info:**
+**Text files Info:**    
     All the scripts expect you to supply the text files with ONLY WITH RELEVANT data. I.e., it should contain only the words which need to be processed.     
     **Example** file is below:  
         hello    
