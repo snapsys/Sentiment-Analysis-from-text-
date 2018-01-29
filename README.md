@@ -39,7 +39,7 @@ CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py ${sr
 ### **** Everything below here is unclear to me and needs explanation and detail.
 
 data directory should have following files: 
-tokenizer for each fold -- can be found here: ${src_dir}/../CSAT_scripts/data_CV/tokenizer_None_CV_*fold.pkl     
+tokenizer for each fold -- can be found here: ${src_dir}/../CSAT_scripts/data_CV/tokenizer_None_CV_*fold.pkl     
                         -- used to turn the text into appropriate input format. Usually converting the text into sequence of 
                            word indices. For details look at https://keras.io/preprocessing/text/#tokenizer 
 
