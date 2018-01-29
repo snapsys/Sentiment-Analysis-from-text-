@@ -59,7 +59,7 @@ The scripts expect you to have seperate data set (data set is h5 terminalogy) fo
 Text files Info:
 All the scripts expect you to supply the text files with ONLY WITH RELEVANT data. I.e., it should contain only the words which need to be processed. 
 Example file is below:
-    hello  
+    hello    
     hello thank you
     hello thank you for calling xyz dot com my name is debbie im a up
     hi sandy im i im try im up loaded a photo
