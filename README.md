@@ -38,27 +38,27 @@ CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py ${sr
 
 ### **** Everything below here is unclear to me and needs explanation and detail.
 
-data directory should have following files:
-tokenizer for each fold -- can be found here: ${src_dir}/../CSAT_scripts/data_CV/tokenizer_None_CV_*fold.pkl 
+data directory should have following files: 
+tokenizer for each fold -- can be found here: ${src_dir}/../CSAT_scripts/data_CV/tokenizer_None_CV_*fold.pkl     
                         -- used to turn the text into appropriate input format. Usually converting the text into sequence of 
-                           word indices. For details look at https://keras.io/preprocessing/text/#tokenizer
+                           word indices. For details look at https://keras.io/preprocessing/text/#tokenizer 
 
-utt2label_test.txt if you are running on new transcripts. It contains two columns, first column with file name and second column with corresponding label
-Example: 
-    21J8CSQUKBBC9U0QQG 1
-    9K1MVL2OBUHSTUK5F6 1
-    2CD35MEMKMD1UGG2AD 0
-    F4G5186A3HDA1AUPKF 1
-    FII20I812P26QFPGLQ 0
-    A0EAE75296JVLECGS2 0
+utt2label_test.txt if you are running on new transcripts. It contains two columns, first column with file name and second column with corresponding label       
+Example:     
+    21J8CSQUKBBC9U0QQG 1    
+    9K1MVL2OBUHSTUK5F6 1    
+    2CD35MEMKMD1UGG2AD 0    
+    F4G5186A3HDA1AUPKF 1    
+    FII20I812P26QFPGLQ 0    
+    A0EAE75296JVLECGS2 0    
 
 Temporal features Info:
-Temporal features are expected to be stored in h5 format. It is Hierarchical Data format, used to store and access efficiently. For more details refer https://support.hdfgroup.org/HDF5/
+Temporal features are expected to be stored in h5 format. It is Hierarchical Data format, used to store and access efficiently. For more details refer https://support.hdfgroup.org/HDF5/   
 The scripts expect you to have seperate data set (data set is h5 terminalogy) for each utterance in h5 file. Details of how to store can be understood from store_AF_data.py.
 
 Text files Info:
-All the scripts expect you to supply the text files with ONLY WITH RELEVANT data. I.e., it should contain only the words which need to be processed. 
-Example file is below:
+All the scripts expect you to supply the text files with ONLY WITH RELEVANT data. I.e., it should contain only the words which need to be processed.     
+Example file is below:  
     hello    
     hello thank you  
     hello thank you for calling xyz dot com my name is debbie im a up   
