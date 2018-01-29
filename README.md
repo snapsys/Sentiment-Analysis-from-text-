@@ -97,7 +97,7 @@ label info
 Siamese_FUSE_text_temporal.py  is training script
 
 
-4. System Architecture
+4. System Architecture  
 ![alt text] (https://github.com/snapsys/Sentiment-Analysis-from-text-/blob/master/base_model_1.jpg)
 
 
