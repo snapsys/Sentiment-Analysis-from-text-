@@ -64,7 +64,7 @@ Example:
         put them in my car in order them but i need some help   
         okay    
 
-    One example of **wrong format** is below: (first few columns contain unwanted information, only the last column is relevant for us) 
+    One example of **WRONG** format is below: (first few columns contain unwanted information, only the last column is relevant for us) 
         21J8CSQUKBBC9U0QQG,15.81,16.725,2,hello 
         21J8CSQUKBBC9U0QQG,16.23,17.235,1,hello thank you   
         21J8CSQUKBBC9U0QQG,17.64,21.735,1,hello thank you for calling xyz dot com my name is debbie im a up 
