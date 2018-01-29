@@ -99,9 +99,10 @@ Siamese_FUSE_text_temporal.py  is training script
 
 4. System Architecture  
 
+![Alt text](https://github.com/snapsys/Sentiment-Analysis-from-text-/blob/master/sum_base_models_dropout.jpg)
 
-![Alt text](https://github.com/snapsys/Sentiment-Analysis-from-text-/blob/master/base_model_1.jpg)![Alt text](https://github.com/snapsys/Sentiment-Analysis-from-text-/blob/master/sum_base_models_dropout.jpg)
-
+where BaseModel archtecture is shown below  
+    ![Alt text](https://github.com/snapsys/Sentiment-Analysis-from-text-/blob/master/base_model_1.jpg)
 
 
 
