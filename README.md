@@ -46,7 +46,7 @@ CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py ${sr
             
         
         
-### 2. Test on new data (incomplete):   
+### 2. Test on new data (complete except for additional comments in code):   
 **data directory (data_dir)** should have following files:   
 **tokenizer** for each fold -- can be found here: ${src_dir}/data_CV/tokenizer_None_CV_*fold.pkl.
                                 Used to turn the text into appropriate input format. Usually converting the text into sequence of word indices. For details look at https://keras.io/preprocessing/text/#tokenizer 
