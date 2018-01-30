@@ -193,6 +193,27 @@ def main():
     This function loads the supplied neural network model and evalautes a list of utterances         
     Inputs: Obtained from get_args() function
     Outputs: Outputs accuracy and f-score to out_dir
+    
+    Format: 
+    CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py arch_file model_path data_dir  out_dir weight suffix layer_indices AF_data_path -n new_transcripts -tr_dir transcripts_dir -p post_string -f fold_no 
+
+    Inputs description: 
+        arch_file -- model architecture used for training
+        model_path -- model weights stored in training
+        data_dir -- Path for data dir which should contain tokenizer and utt2label_test.txt
+        out_dir -- dir to store the results file
+        weight -- Constant factor of verification loss, not used in any where except to store the result. Technically, can    
+                    be given any value at the time of evaluation.
+        suffix -- suffix need to be added to result file name. Again, can be given any string.
+        layer_indices -- list of layer indices of your model using which you will extract features. In the present case,
+                         anything can be given because I hard coded layer indices in the code.
+        AF_data_path -- path for h5 file which should contain temporal features
+        (-n)--new_transcripts -- boolean, set to 1 if you are using new transcripts, otherwise set to 0 (default)
+        (-tr_dir)--transcripts_dir -- path for transcripts
+        (-p)--post_string -- data set to be evaluated. Can take "train", "test"(default)
+        (-f)--fold_no -- Cross validation fold number. Tokenizer will be selected based on this, model_path and arch_file
+                        should also be correspong to this fold number
+    
     '''
     args = get_args()
     args.layer_ind = args.layer_ind.split(',')
