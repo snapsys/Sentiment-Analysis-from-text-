@@ -42,11 +42,11 @@ CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py ${sr
             layer_indices -- list of layer indices of your model using which you will extract features. In the present case,
                              anything can be given because I hard coded layer indices in the code.
             AF_data_path -- path for h5 file which should contain temporal features
-            new_transcripts -- boolean, set to 1 if you are using new transcripts, otherwise set to 0 (default)
-            transcripts_dir -- path for transcripts
-            post_string -- data set to be evaluated. Can take "train", "test"(default)
-            fold_no -- Cross validation fold number. Tokenizer will be selected based on this, model_path and arch_file should 
-                        also be correspong to this fold number
+            (-n)--new_transcripts -- boolean, set to 1 if you are using new transcripts, otherwise set to 0 (default)
+            (-tr_dir)--transcripts_dir -- path for transcripts
+            (-p)--post_string -- data set to be evaluated. Can take "train", "test"(default)
+            (-f)--fold_no -- Cross validation fold number. Tokenizer will be selected based on this, model_path and arch_file
+                            should also be correspong to this fold number
             
             
         
