@@ -33,14 +33,15 @@ CUDA_VISIBLE_DEVICES=" " python ${src_dir}/evaluate_CV_v2_FUSE_CNNwithAF.py ${sr
 **tokenizer** for each fold -- can be found here: ${src_dir}/../CSAT_scripts/data_CV/tokenizer_None_CV_*fold.pkl            
                              -- used to turn the text into appropriate input format. Usually converting the text into sequence of word indices. For details look at https://keras.io/preprocessing/text/#tokenizer 
 
-**utt2label_test.txt** if you are running on new transcripts. It contains two columns, first column with file name and second column with corresponding label       
-Example:     
-    21J8CSQUKBBC9U0QQG 1    
-    9K1MVL2OBUHSTUK5F6 1    
-    2CD35MEMKMD1UGG2AD 0    
-    F4G5186A3HDA1AUPKF 1    
-    FII20I812P26QFPGLQ 0    
-    A0EAE75296JVLECGS2 0    
+**utt2label_test.txt** if you are running on new transcripts. It contains two columns, first column with file name and second column with corresponding label 
+
+    Example:     
+        21J8CSQUKBBC9U0QQG 1    
+        9K1MVL2OBUHSTUK5F6 1    
+        2CD35MEMKMD1UGG2AD 0    
+        F4G5186A3HDA1AUPKF 1    
+        FII20I812P26QFPGLQ 0    
+        A0EAE75296JVLECGS2 0    
 
 **Temporal features Info:** 
     Temporal features are expected to be stored in h5 format. It is Hierarchical Data format, used to store and access efficiently. For more details refer https://support.hdfgroup.org/HDF5/   
