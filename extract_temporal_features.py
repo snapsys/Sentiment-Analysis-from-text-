@@ -4,6 +4,7 @@
 #connection_uid,start_time,end_time,channel,utterance
 
 import sys
+import csv
 
 #countUtt = 0
 #previous_end_time = 0
@@ -127,6 +128,7 @@ def NumOverlaps(transcript_file):
 	num_overlaps = 0
 	previous_end_time = 0
 	current_start_time = 0
+	lastspkr = '0'
 	with open(transcript_file,'r') as test_file:
                 test_csv = csv.reader(test_file, delimiter=',')
                 for line_number,line in enumerate(test_csv):
@@ -158,7 +160,7 @@ def TimeOnTask(transcript_file):
 def MeanWrdsPerSysTurn(transcript_file):
 # Calculates the mean number of words spoken by the agent per turn ( not utterance )
 
-	num_of_sys_wrds = NumOfSysWrds(transcript_file)
+	num_of_sys_wrds = NumOfSysWrd(transcript_file)
 	num_of_sys_turn = NumOfSysTurn(transcript_file)
 	mean_wrds_per_sys_turn = float(num_of_sys_wrds)/num_of_sys_turn
 	return mean_wrds_per_sys_turn
@@ -175,7 +177,7 @@ def MeanSysTurnDur(transcript_file):
 # Calculates the mean talking time of the agent per turn 
 
 	sys_turn_dur = SysTurnDur(transcript_file)
-	num_of_sys_turn = NumOfUsrTurn(transcript_file)
+	num_of_sys_turn = NumOfSysTurn(transcript_file)
 	mean_sys_turn_dur = float(sys_turn_dur)/ num_of_sys_turn
 	return mean_sys_turn_dur
 
@@ -190,7 +192,7 @@ def UsrRate(transcript_file):
 def SysRate(transcript_file):
 # calculates average number of words per agent turn
 
-	num_of_sys_wrds = NumOfSysWrds(transcript_file)
+	num_of_sys_wrds = NumOfSysWrd(transcript_file)
 	sys_turn_dur = SysTurnDur(transcript_file)
 	sys_rate = float(num_of_sys_wrds)/sys_turn_dur
 	return sys_rate
@@ -209,8 +211,30 @@ def SysCallDom(transcript_file):
 	sys_turn_dur = SysTurnDur(transcript_file)
 	total_talking_time = TotalTalkingTime(transcript_file)
 	sys_call_dominance = float(sys_turn_dur)/total_talking_time
-	return sys_call_dom
+	return sys_call_dominance
 
 
 
+transcript_file = sys.argv[1]
+total_talking_time = TotalTalkingTime(transcript_file)
+num_overlaps = NumOverlaps(transcript_file)
+time_on_task = TimeOnTask(transcript_file)
+mean_wrds_per_sys_turn = MeanWrdsPerSysTurn(transcript_file)
+mean_wrds_per_usr_turn = MeanWrdsPerUsrTurn(transcript_file)
+mean_sys_turn_dur = MeanSysTurnDur(transcript_file)
+usr_rate = UsrRate(transcript_file)
+sys_rate = SysRate(transcript_file)
+usr_call_dominance = UsrCallDom(transcript_file)
+sys_call_dom = SysCallDom(transcript_file)
+
+print "total_talking_time",total_talking_time
+print "num_overlaps", num_overlaps
+print "time_on_task", time_on_task
+print "mean_wrds_per_sys_turn", mean_wrds_per_sys_turn
+print "mean_wrds_per_usr_turn",mean_wrds_per_usr_turn
+print "mean_sys_turn_dur",mean_sys_turn_dur
+print "usr_rate", usr_rate
+print "sys_rate", sys_rate
+print "usr_call_dominance", usr_call_dominance
+print "sys_call_dom", sys_call_dom
 
