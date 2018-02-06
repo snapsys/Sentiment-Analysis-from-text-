@@ -1,0 +1,153 @@
+
+#takes transcript as an input and gives out temporal features as output. Each temporal feature has its own individual funtion.
+#transcript_file is of the format
+#connection_uid,start_time,end_time,channel,utterance
+
+import sys
+transcript_file = sys.argv[1]
+
+countUtt = 0
+previous_end_time = 0
+current_start_time = 0
+NumOverlaps = 0
+NumOfSysWrds = 0
+NumOfSysUtt = 0
+NumOfUsrWrds = 0
+NumOfUsrUtt = 0
+SysTurnDur = 0
+UsrTurnDur = 0
+NumOfSysTurn = 0
+NumOfUsrTurn = 0
+currentspkr = 0
+TotalTalkingTime = 0
+
+def UsrTurnDur(transcript_file):
+	with open(transcript_file,'r') as test_file:
+                test_csv = csv.reader(test_file, delimiter=',')
+                for line_number,line in enumerate(test_csv):
+                        speaker = line[3]
+			if speaker == '2':
+				UsrTurnDur = UsrTurnDur + (float(line[2])-float(line[1]))
+	return UsrTurnDur
+
+def SysTurnDur(transcript_file):
+	with open(transcript_file,'r') as test_file:
+                test_csv = csv.reader(test_file, delimiter=',')
+                for line_number,line in enumerate(test_csv):
+                        speaker = line[3]
+                        if speaker == '1':
+                                SysTurnDur = SysTurnDur + (float(line[2])-float(line[1]))
+        return SysTurnDur
+
+def StartTimeEndTime(transcript_file):
+	with open(transcript_file,'r') as test_file:
+                test_csv = csv.reader(test_file, delimiter=',')
+                for line_number,line in enumerate(test_csv):
+			utterance = line[4]
+                        if utterance:
+                                countUtt = countUtt + 1
+                        if countUtt == 1:
+                                start_time = float(line[1])
+		end_time = float(line[2])
+	return start_time, end_time
+	
+def NumOfSysWrd(transcript_file):
+	with open(transcript_file,'r') as test_file:
+                test_csv = csv.reader(test_file, delimiter=',')
+                for line_number,line in enumerate(test_csv):
+			speaker = line[3]
+			utterance = line[4]
+			if speaker == '1':
+				NumWords = len(utterance.split())
+                                NumOfSysWrds = NumOfSysWrds + NumWords
+	return NumOfSysWrd
+		
+def NumOfSysTurn(transcript_file):
+	lastspkr = '0'
+	with open(transcript_file,'r') as test_file:
+                test_csv = csv.reader(test_file, delimiter=',')
+                for line_number,line in enumerate(test_csv):
+			speaker = line[3]
+                        currentspkr = speaker
+			if speaker == '1':
+                                if currentspkr != lastspkr:
+                                        NumOfSysTurn = NumOfSysTurn + 1
+		lastspkr = currentspkr
+	return NumOfSysTurn
+	
+def NumOfUsrWrds(transcript_file):
+	with open(transcript_file,'r') as test_file:
+                test_csv = csv.reader(test_file, delimiter=',')
+                for line_number,line in enumerate(test_csv):
+                        speaker = line[3]
+                        utterance = line[4]
+                        if speaker == '2':
+                                NumWords = len(utterance.split())
+                                NumOfUsrWrds = NumOfUsrWrds + NumWords
+        return NumOfUsrWrd
+
+def NumOfUsrTurn(transcript_file):
+	lastspkr = '0'
+        with open(transcript_file,'r') as test_file:
+                test_csv = csv.reader(test_file, delimiter=',')
+                for line_number,line in enumerate(test_csv):
+                        speaker = line[3]
+                        currentspkr = speaker
+                        if speaker == '2':
+                                if currentspkr != lastspkr:
+                                        NumOfUsrTurn = NumOfUsrTurn + 1
+                lastspkr = currentspkr
+        return NumOfUsrTurn
+
+def TotalTalkingTime(transcript_file):
+	usr_turn_dur = UsrTurnDur(transcript_file)
+	sys_turn_dur = SysTurnDur(transcript_file)
+	total_talking_time = usr_turn_dur + sys_turn_dur
+	return total_talking_time
+
+def TimeOnTask(transcript_file):
+	start_time,end_time = StartTimeEndTime(transcript_file)
+	time_on_task = end_time - start_time
+	return time_on_task
+
+def MeanWrdsPerSysTurn(transcript_file):
+	num_of_sys_wrds = NumOfSysWrds(transcript_file)
+	num_of_sys_turn = NumOfSysTurn(transcript_file)
+	mean_wrds_per_sys_turn = float(num_of_sys_wrds)/num_of_sys_turn
+	return mean_wrds_per_sys_turn
+
+def MeanWrdsPerUsrTurn(transcript_file):
+	num_of_usr_wrds = NumOfUsrWrds(transcript_file)
+        num_of_usr_turn = NumOfUsrTurn(transcript_file)
+        mean_wrds_per_usr_turn = float(num_of_usr_wrds)/num_of_usr_turn
+        return mean_wrds_per_usr_turn
+
+def MeanSysTurnDur(transcript_file):
+	sys_turn_dur = SysTurnDur(transcript_file)
+	num_of_sys_turn = NumOfUsrTurn(transcript_file)
+	mean_sys_turn_dur = float(sys_turn_dur)/ num_of_sys_turn
+	return mean_sys_turn_dur
+
+def UsrRate(transcript_file):
+	num_of_usr_wrds = NumOfUsrWrds(transcript_file)
+	usr_turn_dur = UsrTurnDur(transcript_file)
+	usr_rate = float(num_of_usr_wrds)/usr_turn_dur
+	return usr_rate
+
+def SysRate(transcript_file):
+	num_of_sys_wrds = NumOfSysWrds(transcript_file)
+	sys_turn_dur = SysTurnDur(transcript_file)
+	sys_rate = float(num_of_sys_wrds)/sys_turn_dur
+	return sys_rate
+
+def UsrCallDom(transcript_file):
+	usr_turn_dur = UsrTurnDur(transcript_file)
+	total_talking_time = TotalTalkingTime(transcript_file)
+	usr_call_dominance = float(usr_turn_dur)/total_talking_time
+	return usr_call_dominance
+
+def SysCallDom(transcript_file):
+	sys_turn_dur = SysTurnDur(transcript_file)
+	total_talking_time = TotalTalkingTime(transcript_file)
+	sys_call_dominance = float(sys_turn_dur)/total_talking_time
+	return SysCallDom
