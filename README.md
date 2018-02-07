@@ -4,7 +4,7 @@
 
 ## Tested with versions:
 
-Python 3.6.3 test
+Python 3.6.3
 
 Tensorflow 1.4.1
 
