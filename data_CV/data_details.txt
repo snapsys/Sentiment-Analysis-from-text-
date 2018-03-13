@@ -1,0 +1,12 @@
+/var/users/purvak/csat/walgreen/db.csv
+where 
+These calls have 4 customer survey questions which are as follows:
+q1 = How likely are you to recommend us to family members, friends or co-workers?
+scale of 1-9, 9 being the most likely
+q2 = Please rate your satisfaction with the Customer Care Specialist regarding the overall level of service you received on your call
+scale of 1-9, 9 being extremely satisfied
+q3 = Did the customer care specialist satisfy your particular inquiry or issue for this call today?
+Press 1 for Yes or 2 for No or 3 for unsure
+q4 = Have you contacted us regarding the question or issue you called about today more than once?
+Press 1 if you only contacted Walgreens one time,Press 2 if you contacted Walgreens more than one time 
+
